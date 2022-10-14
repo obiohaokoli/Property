@@ -4,12 +4,12 @@ namespace Obioha_VillaAPI.Data
 {
     public class VillaStore
     {
-        public static List<VillaDTO> VillaList =
+        public static List<HouseDTO> VillaList =
         
-            new List<VillaDTO>()
+            new List<HouseDTO>()
             {
-                new VillaDTO() { Id = 1, Name = "pool villa" , Sqtf = 100, Occupancy = 4 },
-                new VillaDTO() { Id = 2, Name = "Mesh villa", Sqtf = 120, Occupancy = 6}
+                new HouseDTO() { Id = 1, Name = "pool villa" , Square_Feet= 100, Occupancy = 4 },
+                new HouseDTO() { Id = 2, Name= "Mesh villa", Square_Feet = 120, Occupancy = 6}
             };
         
     }

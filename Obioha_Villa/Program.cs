@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Obioha_VillaAPI.Data;
 using Obioha_VillaAPI.Logger;
 using Serilog;
 using ILogging = Obioha_VillaAPI.Logger.ILogging;
@@ -10,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 //Log.Logger = new LoggerConfiguration().MinimumLevel.Debug()
 //  .WriteTo.File("log/villarLog.txt", rollingInterval: RollingInterval.Day).CreateLogger();
 //builder.Host.UseSerilog();
+
+// configure the connectionstring
+builder.Services.AddDbContext<ApplicationDbContext>(option => {
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
+});
 
 
 //option.ReturnHttpNotAcceptable = true (only json is allowed)
