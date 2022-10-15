@@ -11,6 +11,7 @@ namespace Obioha_VillaAPI.Data
 
 
        public DbSet<House> Houses { get; set; }
+       public DbSet<Tenant> Tenants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         
@@ -56,6 +57,53 @@ namespace Obioha_VillaAPI.Data
                      Updated_Date = DateTime.Now
 
                  });
+
+
+            modelBuilder.Entity<Tenant>().HasData(
+               new Tenant()
+               {
+                   Id = 1,
+                    First_Name = "Micheal",
+                     Last_Name = "kpeke",
+                     Middle_Name = "okigwe",
+                      CreatedDate = DateTime.Now,
+                       Deposite_Amount = 1200,
+                        Imageurl = "", 
+                         Marriage_Status = "Married",
+                          Move_in_date = new  DateTime(2022 - 08 - 01),
+                           Nationality = "Nigeria",
+                            No_Of_kids = 2,
+                             Tenancy_End_Date = new DateTime(2023- 08- 01),
+                              Tenancy_Period = "one year",
+                              Tenancy_Start_Date = new DateTime(2022 -08-01),
+                               UpdatedDate = DateTime.Now,
+                                
+                                
+
+                          
+                    
+                  
+
+               },
+                new Tenant()
+                {
+                    Id = 2,
+                    First_Name = "Peter",
+                    Last_Name = "Obi",
+                    Middle_Name = "Awka",
+                    CreatedDate = DateTime.Now,
+                    Deposite_Amount = 1200,
+                    Imageurl = "",
+                    Marriage_Status = "Married",
+                    Move_in_date = new DateTime(2022 - 08 - 01),
+                    Nationality = "Nigeria",
+                    No_Of_kids = 2,
+                    Tenancy_End_Date = new DateTime(2023 - 08 - 01),
+                    Tenancy_Period = "one year",
+                    Tenancy_Start_Date = new DateTime(2022 - 08 - 01),
+                    UpdatedDate = DateTime.Now,
+
+               });
         }
 
     }

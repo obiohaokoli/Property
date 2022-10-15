@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,8 @@ using Obioha_VillaAPI.Data;
 using Obioha_VillaAPI.Logger;
 using Obioha_VillaAPI.Models;
 using Obioha_VillaAPI.Models.DTO;
+using Obioha_VillaAPI.Repository.IRepository;
+using System.Net;
 using System.Xml.Linq;
 
 namespace Obioha_VillaAPI.Controllers
@@ -15,19 +18,35 @@ namespace Obioha_VillaAPI.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase
     {
+        protected APIResponse _response;
         private readonly ILogging _logger;
-        private readonly ApplicationDbContext _db;
-        public VillaAPIController(ILogging logger, ApplicationDbContext db)
+        private readonly IUnitOfWork _UOfWork;
+        private readonly IMapper _mapper;
+      
+        public VillaAPIController(ILogging logger, IUnitOfWork uw, IMapper mapper)
         {
             _logger = logger;
-            _db = db;
+            _UOfWork = uw;
+            _mapper = mapper;
+            this._response = new();
         }
-        [HttpGet]
+        [HttpGet(Name ="GetAllHouses")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult GetProperties()
+        public async Task<ActionResult<APIResponse>> GetHouses()
         {
-            _logger.Log("getting all villas", "Error");
-            return Ok(_db.Houses);
+            try
+            {
+                IEnumerable<House> houseList = await _UOfWork.House.GetAllAsync();
+                _response.Result = _mapper.Map<List<HouseDTO>>(houseList);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
 
         [HttpGet("{id:int}", Name = "GetVilla")]
@@ -35,22 +54,29 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         //[ProducesResponseType(typeof(VillaDTO), 200)]
-        public IActionResult GetProperty(int id)
+        public async Task<ActionResult<APIResponse>> GetHouse(int id)
         {
-
-            if (id == 0)
+            try { 
+        if (id == 0)
             {
-                _logger.Log("The Id cannot be empty ", "warning");
-                return BadRequest("The Id is Zero!!");
+                   return BadRequest("Id cannot be zero!");
             }
 
-            var house = _db.Houses.FirstOrDefault(x => x.Id == id);
+            var house = await _UOfWork.House.GetAsync(x => x.Id == id);
             if (house == null)
             {
-                _logger.Log("The house cannot be null", "Information");
-                return NotFound("the id does not exist");
+                return NotFound("the object does not exist");
             }
-            return Ok(house); 
+           _response.Result= _mapper.Map<HouseDTO>(house);
+            _response.StatusCode = HttpStatusCode.OK;
+            return  Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
 
         [HttpPost]
@@ -58,111 +84,94 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-        public ActionResult CreateProperty([FromBody] HouseDTO houseDTO)
+        public async Task<ActionResult<APIResponse>> CreateProperty([FromBody] HouseCreateDTO houseCreateDTO)
         {
+            try { 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-           
-            if (houseDTO == null)
+            if (houseCreateDTO == null)
             {
                 return NotFound("The object should not be empty!!");
             }
-            if (houseDTO.Id > 0)
-            {
-                _logger.Log("id should be Testing creation", "");
-                return StatusCode(StatusCodes.Status500InternalServerError);
+            //converting houseUpdateDTO to House model
+          House house =  _mapper.Map<House>(houseCreateDTO);
+           await _UOfWork.House.AddAsync(house);
+            await _UOfWork.SaveAsync();
+
+            //change back to dto because the return type is dto
+           _response.Result = _mapper.Map<HouseCreateDTO>(house);
+         CreatedAtRoute("GetVilla", new { id = house.Id } , _response);
+            _response.StatusCode = HttpStatusCode.Created;
+            return  _response;
             }
-
-            House house = new()
+            catch (Exception ex)
             {
-                Name = houseDTO.Name,
-                Built_Date = DateTime.Now,
-                Current_Cost = houseDTO.Current_Cost,
-                ImageUrl = houseDTO.ImageUrl,
-                No_Of_Bedrooms = houseDTO.No_Of_Bedrooms,
-                No_Of_Toilets = houseDTO.No_Of_Toilets,
-                Occupancy = houseDTO.Occupancy,
-                Property_Type = houseDTO.Property_Type,
-                Purchased_Date = houseDTO.Purchased_Date,
-                Purchase_Cost = houseDTO.Purchase_Cost,
-                Purpose = houseDTO.Purpose,
-                Sitting_Rooms_No = houseDTO.Sitting_Room_No,
-                Square_Feet = houseDTO.Square_Feet
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
 
-
-            };
-            //if (_db.Houses.Any(x => x.Name == house.Name) != false)
-            //{
-            //    ModelState.AddModelError("Custom Error", "The Names has to be unique!");
-            //    return BadRequest(ModelState);
-            //}
-            _db.Houses.Add(house);
-            _db.SaveChanges();
-
-
-            return CreatedAtRoute("GetVilla", new { id = house.Id } , house);
-           // return NoContent();
         }
 
         [HttpDelete("{id:int}", Name = "deletedVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult RemoveProperty(int id)
+        public async Task<ActionResult<APIResponse>> RemoveProperty(int id)
         {
+            try { 
             if (id == 0)
             {
                 return BadRequest("Object to delete not found");
             }
-            House house = _db.Houses.FirstOrDefault(c => c.Id == id);
+            House house =await _UOfWork.House.GetAsync(c => c.Id == id);
             if (house == null)
             {
                 return NotFound("Object is not available");
             }
-            _db.Houses.Remove(house);
-            _db.SaveChanges();
-
+           await _UOfWork.House.RemoveAsync(house);
+            await _UOfWork.SaveAsync();
             //return CreatedAtRoute("deletedVilla",id,house);
-            return NoContent();
+            _response.StatusCode = HttpStatusCode.NoContent;
+            return  _response;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
 
         [HttpPut("{id:int}", Name = "UpdatedHouse")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult EditProperty(int id, [FromBody] HouseDTO houseDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> EditProperty(int id, [FromBody] HouseUpdateDTO houseUpdateDTO)
         {
-            if (id == 0 && houseDTO == null)
+            try { 
+            if (id == 0 && houseUpdateDTO == null)
             {
                 return BadRequest("The Id's has to be same");
             }
-            House house = _db.Houses.FirstOrDefault(c => c.Id == id);
-            if (house == null)
-            {
-                return NotFound("The house is not available!");
+              House house = _mapper.Map<House>(houseUpdateDTO);
+           
+           await _UOfWork.House.UpdateHouseAsync(house);
+            await _UOfWork.SaveAsync();
+            _response.Result = _mapper.Map<HouseUpdateDTO>(house);
+            _response.StatusCode = HttpStatusCode.NoContent;
+            return _response;
             }
-            //update
-               house= new House() {
-                Name = houseDTO.Name,
-                Built_Date = DateTime.Now,
-                Current_Cost = houseDTO.Current_Cost,
-                ImageUrl = houseDTO.ImageUrl,
-                No_Of_Bedrooms = houseDTO.No_Of_Bedrooms,
-                No_Of_Toilets = houseDTO.No_Of_Toilets,
-                Occupancy = houseDTO.Occupancy,
-                Property_Type = houseDTO.Property_Type,
-                Purchased_Date = houseDTO.Purchased_Date,
-                Purchase_Cost = houseDTO.Purchase_Cost,
-                Purpose = houseDTO.Purpose,
-                Sitting_Rooms_No = houseDTO.Sitting_Room_No,
-                Square_Feet = houseDTO.Square_Feet
-            };
-             _db.Houses.Update(house);
-            _db.SaveChanges();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
 
         }
 
@@ -170,61 +179,43 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult PatialEditProperty(int id, JsonPatchDocument<HouseDTO> jsonPatch)
+        public async Task<ActionResult<APIResponse>> PatialEdit(int id, JsonPatchDocument<HouseUpdateDTO> jsonPatch)
         {
+            try { 
             if (id == 0 && jsonPatch == null)
             {
                 return BadRequest("verify the id and jsonPatch");
             }
 
-            House house = _db.Houses.FirstOrDefault(villa => villa.Id == id);
+        House house = await _UOfWork.House.GetAsync(villa => villa.Id == id,
+            tracked:false);
+
             if (house == null)
             {
                 return BadRequest("Villa not found");
             }
-            //change to DTO
-            HouseDTO houseDTO = new()
-            {    Id = house.Id,
-                Name = house.Name,
-                Built_Date = DateTime.Now,
-                Current_Cost = house.Current_Cost,
-                ImageUrl = house.ImageUrl,
-                No_Of_Bedrooms = house.No_Of_Bedrooms,
-                No_Of_Toilets = house.No_Of_Toilets,
-                Occupancy = house.Occupancy,
-                Property_Type = house.Property_Type,
-                Purchased_Date = house.Purchased_Date,
-                Purchase_Cost = house.Purchase_Cost,
-                Purpose = house.Purpose,
-                Sitting_Room_No = house.Sitting_Rooms_No,
-                Square_Feet = house.Square_Feet
-
-            };
-            jsonPatch.ApplyTo(houseDTO, ModelState);
+            //change house mode to houseUpdateDTO
+            HouseUpdateDTO updateDTO = _mapper.Map<HouseUpdateDTO>(house);
+        
+            jsonPatch.ApplyTo(updateDTO, ModelState);
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("customError", "the model error");
             }
-            //update
-          House  houseToApply = new House()
+            //convert from HouseUpdateDTO to House Model
+            House houseUpdate = _mapper.Map<House>(updateDTO);
+         
+           await _UOfWork.House.UpdateHouseAsync(houseUpdate);
+            await _UOfWork.SaveAsync();
+            _response.StatusCode = HttpStatusCode.NoContent;
+            return _response;
+            }
+            catch (Exception ex)
             {
-                Name = houseDTO.Name,
-                Built_Date = DateTime.Now,
-                Current_Cost = houseDTO.Current_Cost,
-                ImageUrl = houseDTO.ImageUrl,
-                No_Of_Bedrooms = houseDTO.No_Of_Bedrooms,
-                No_Of_Toilets = houseDTO.No_Of_Toilets,
-                Occupancy = houseDTO.Occupancy,
-                Property_Type = houseDTO.Property_Type,
-                Purchased_Date = houseDTO.Purchased_Date,
-                Purchase_Cost = houseDTO.Purchase_Cost,
-                Purpose = houseDTO.Purpose,
-                Sitting_Rooms_No = houseDTO.Sitting_Room_No,
-                Square_Feet = houseDTO.Square_Feet
-            };
-            _db.Houses.Update(houseToApply);
-            _db.SaveChanges();
-            return NoContent();
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+            }
+            return _response;
 
 
         }

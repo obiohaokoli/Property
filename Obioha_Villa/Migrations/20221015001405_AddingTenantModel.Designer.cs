@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Obioha_VillaAPI.Data;
 
@@ -11,9 +12,10 @@ using Obioha_VillaAPI.Data;
 namespace Obioha_VillaAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221015001405_AddingTenantModel")]
+    partial class AddingTenantModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,7 +86,7 @@ namespace Obioha_VillaAPI.Migrations
                         {
                             Id = 1,
                             Built_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1949),
-                            Created_Date = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(8975),
+                            Created_Date = new DateTime(2022, 10, 15, 1, 14, 5, 510, DateTimeKind.Local).AddTicks(4853),
                             Current_Cost = 190000m,
                             ImageUrl = "Manchester.jpg",
                             Name = "Manchester_One",
@@ -97,13 +99,13 @@ namespace Obioha_VillaAPI.Migrations
                             Purpose = "Buy to Let",
                             Sitting_Rooms_No = 2,
                             Square_Feet = 75,
-                            Updated_Date = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9007)
+                            Updated_Date = new DateTime(2022, 10, 15, 1, 14, 5, 510, DateTimeKind.Local).AddTicks(4888)
                         },
                         new
                         {
                             Id = 2,
                             Built_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1969),
-                            Created_Date = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9011),
+                            Created_Date = new DateTime(2022, 10, 15, 1, 14, 5, 510, DateTimeKind.Local).AddTicks(4918),
                             Current_Cost = 132000m,
                             ImageUrl = "Derby.jpg",
                             Name = "Derby_One",
@@ -116,7 +118,7 @@ namespace Obioha_VillaAPI.Migrations
                             Purpose = "Buy to Let",
                             Sitting_Rooms_No = 2,
                             Square_Feet = 75,
-                            Updated_Date = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9012)
+                            Updated_Date = new DateTime(2022, 10, 15, 1, 14, 5, 510, DateTimeKind.Local).AddTicks(4919)
                         });
                 });
 
@@ -127,9 +129,6 @@ namespace Obioha_VillaAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Deposite_Amount")
                         .HasColumnType("decimal(18,2)");
@@ -171,50 +170,9 @@ namespace Obioha_VillaAPI.Migrations
                     b.Property<DateTime>("Tenancy_Start_Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
                     b.ToTable("Tenants");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedDate = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9085),
-                            Deposite_Amount = 1200m,
-                            First_Name = "Micheal",
-                            Imageurl = "",
-                            Last_Name = "kpeke",
-                            Marriage_Status = "Married",
-                            Middle_Name = "okigwe",
-                            Move_in_date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            Nationality = "Nigeria",
-                            No_Of_kids = 2,
-                            Tenancy_End_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2014),
-                            Tenancy_Period = "one year",
-                            Tenancy_Start_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            UpdatedDate = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9088)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedDate = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9090),
-                            Deposite_Amount = 1200m,
-                            First_Name = "Peter",
-                            Imageurl = "",
-                            Last_Name = "Obi",
-                            Marriage_Status = "Married",
-                            Middle_Name = "Awka",
-                            Move_in_date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            Nationality = "Nigeria",
-                            No_Of_kids = 2,
-                            Tenancy_End_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2014),
-                            Tenancy_Period = "one year",
-                            Tenancy_Start_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            UpdatedDate = new DateTime(2022, 10, 15, 2, 12, 35, 761, DateTimeKind.Local).AddTicks(9093)
-                        });
                 });
 #pragma warning restore 612, 618
         }

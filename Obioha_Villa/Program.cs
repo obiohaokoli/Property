@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Obioha_VillaAPI.Configuration;
 using Obioha_VillaAPI.Data;
 using Obioha_VillaAPI.Logger;
+using Obioha_VillaAPI.Repository;
+using Obioha_VillaAPI.Repository.IRepository;
 using Serilog;
 using ILogging = Obioha_VillaAPI.Logger.ILogging;
 
@@ -18,10 +21,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
+//Adding Mapping Configuration fil
+builder.Services.AddAutoMapper(typeof(MappingConfiguration));
+
 
 //option.ReturnHttpNotAcceptable = true (only json is allowed)
-    builder.Services.AddControllers(option => {
-    option.ReturnHttpNotAcceptable = true;})
+    builder.Services.AddControllers(
+       // option => {option.ReturnHttpNotAcceptable = true } //allows only json
+    )
     .AddNewtonsoftJson()//for using json
     .AddXmlDataContractSerializerFormatters();//for allowing xml
 
@@ -30,6 +37,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option => {
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ILogging, Logging>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
