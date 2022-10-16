@@ -17,12 +17,18 @@ namespace Obioha_VillaAPI.Models
         public int No_Of_kids { get; set; }
         public string? Imageurl { get; set; }
         public string Tenancy_Period { get; set; }
+
+        [ForeignKey("House")]
+        public int House_Id { get; set; }
+        public House House { get; set; }
         public DateTime Tenancy_Start_Date { get; set; }
         public DateTime Tenancy_End_Date { get; set; }
         public DateTime Move_in_date { get; set; }
         public Decimal Deposite_Amount { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
+
+      
 
 
 

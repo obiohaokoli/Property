@@ -133,9 +133,9 @@ namespace Obioha_VillaAPI.Controllers
                 return NotFound("Object is not available");
             }
            await _UOfWork.House.RemoveAsync(house);
-            await _UOfWork.SaveAsync();
-            //return CreatedAtRoute("deletedVilla",id,house);
-            _response.StatusCode = HttpStatusCode.NoContent;
+                await _UOfWork.SaveAsync();
+                //return CreatedAtRoute("deletedVilla",id,house);
+                _response.StatusCode = HttpStatusCode.NoContent;
             return  _response;
             }
             catch (Exception ex)
@@ -161,8 +161,8 @@ namespace Obioha_VillaAPI.Controllers
               House house = _mapper.Map<House>(houseUpdateDTO);
            
            await _UOfWork.House.UpdateHouseAsync(house);
-            await _UOfWork.SaveAsync();
-            _response.Result = _mapper.Map<HouseUpdateDTO>(house);
+                await _UOfWork.SaveAsync();
+                _response.Result = _mapper.Map<HouseUpdateDTO>(house);
             _response.StatusCode = HttpStatusCode.NoContent;
             return _response;
             }
@@ -207,7 +207,7 @@ namespace Obioha_VillaAPI.Controllers
          
            await _UOfWork.House.UpdateHouseAsync(houseUpdate);
             await _UOfWork.SaveAsync();
-            _response.StatusCode = HttpStatusCode.NoContent;
+                _response.StatusCode = HttpStatusCode.NoContent;
             return _response;
             }
             catch (Exception ex)

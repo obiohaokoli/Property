@@ -15,17 +15,26 @@ namespace Obioha_VillaAPI.Repository
             this._dbSet = _db.Set<T>();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> filter = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
         {
             IQueryable<T> query = _dbSet;
             if (filter != null)
             {
                 query = query.Where(filter);
             }
+            if(includeProperties != null)
+            {
+                foreach (var includeProperty in includeProperties
+                    .Split(new char[] { ',' } , StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProperty);
+                }
+            }
             return await query.ToListAsync();
         }
 
-        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null,
+            bool tracked = true, string? includeProperties = null)
         {
             //we use iQueryable because it causes differs execution
             IQueryable<T> query = _dbSet;
@@ -37,6 +46,14 @@ namespace Obioha_VillaAPI.Repository
             {
                 query = query.AsNoTracking();
             }
+            if(includeProperties != null)
+            {
+                foreach(var includeProperty in includeProperties
+                    .Split(new char[] { ',' } , StringSplitOptions.RemoveEmptyEntries))
+                {
+                  query=query.Include(includeProperty);
+                }
+            }
             return await query.FirstOrDefaultAsync();
 
         }
@@ -44,19 +61,24 @@ namespace Obioha_VillaAPI.Repository
         public async Task AddAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
+          
 
         }
 
         public async Task UpdateAsync(T entity)
         {
             _dbSet.Update(entity);
+          
 
         }
         public async Task RemoveAsync(T entity)
         {
             _dbSet.Remove(entity);
 
+          
         }
+
+      
 
 
 

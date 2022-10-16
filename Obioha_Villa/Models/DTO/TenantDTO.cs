@@ -1,4 +1,6 @@
-﻿namespace Obioha_VillaAPI.Models.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Obioha_VillaAPI.Models.DTO
 {
     public class TenantDTO
     {
@@ -7,6 +9,9 @@
         public string Middle_Name { get; set; }
         public string Last_Name { get; set; }
         public string Nationality { get; set; }
+        [Required]
+        public int House_Id { get; set; }
+        public House House { get; set; }
         public string Marriage_Status { get; set; }
         public int No_Of_kids { get; set; }
         public string Tenancy_Period { get; set; }

@@ -28,11 +28,20 @@ namespace Obioha_VillaAPI.Controllers
         }
         [HttpGet(Name = "GetAllTenant")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetAll()
         {
             try
             {
-                IEnumerable<Tenant> tenantList = await _UOfWork.Tenant.GetAllAsync();
+                IEnumerable<Tenant> tenantList = await _UOfWork.Tenant.GetAllAsync(includeProperties:"House");
+                if(tenantList.Count() == 0)
+                {
+                    _response.Result = "No Tenant exist in the database" ;
+                    _response.ErrorMessages = new List<string> {"The table is empty!" };
+                    _response.IsSuccess = false;
+                    return NotFound(_response);
+
+                }
                 _response.Result = _mapper.Map<List<TenantDTO>>(tenantList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
@@ -62,7 +71,10 @@ namespace Obioha_VillaAPI.Controllers
                 var tenant = await _UOfWork.Tenant.GetAsync(x => x.Id == id);
                 if (tenant == null)
                 {
-                    return NotFound("the object does not exist");
+                    _response.Result = "No Tenant exist with such id";
+                    _response.ErrorMessages = new List<string> { "Id is not available!" };
+                    _response.IsSuccess=false;
+                    return NotFound(_response);
                 }
                 _response.Result = _mapper.Map<TenantDTO>(tenant);
                 _response.StatusCode = HttpStatusCode.OK;
@@ -93,16 +105,27 @@ namespace Obioha_VillaAPI.Controllers
                 {
                     return NotFound("The object should not be empty!!");
                 }
+                if (await _UOfWork.House.GetAsync(house => house.Id == CreateDTO.House_Id) == null)
+                {
+                    _response.ErrorMessages = new List<string> { "The Id does not exist in the primary table" };
+                    _response.IsSuccess = false;
+                    return BadRequest(_response);
+                }
+
                 //converting houseUpdateDTO to House model
-              var tenant = _mapper.Map<Tenant>(CreateDTO);
-                await _UOfWork.Tenant.AddAsync(tenant);
+                var tenant = _mapper.Map<Tenant>(CreateDTO);
+              
+               await _UOfWork.Tenant.AddAsync(tenant);
                 await _UOfWork.SaveAsync();
 
                 //change back to dto because the return type is dto
-                _response.Result = _mapper.Map<TenantCreateDTO>(tenant);
-                CreatedAtRoute("GetTenant", new { id = tenant.Id }, _response);
+              
+                    var tenantDTO = _mapper.Map<TenantCreateDTO>(tenant);
+                _response.Result = tenantDTO;
+               
                 _response.StatusCode = HttpStatusCode.Created;
-                return _response;
+
+                return CreatedAtRoute("GetTenant", new { id = tenantDTO.Id}, _response); ;
             }
             catch (Exception ex)
             {
@@ -132,7 +155,7 @@ namespace Obioha_VillaAPI.Controllers
                     return NotFound("Object is not available");
                 }
                 await _UOfWork.Tenant.RemoveAsync(tenant);
-                await _UOfWork.SaveAsync();
+               await _UOfWork.SaveAsync();
                 //return CreatedAtRoute("deletedVilla",id,house);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return _response;
@@ -161,7 +184,7 @@ namespace Obioha_VillaAPI.Controllers
                 var tenant = _mapper.Map<Tenant>(UpdateDTO);
 
                 await _UOfWork.Tenant.UpdateTenantAsync(tenant);
-                await _UOfWork.SaveAsync();
+              await _UOfWork.SaveAsync();
                 _response.Result = _mapper.Map<TenantUpdateDTO>(tenant);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 return _response;
