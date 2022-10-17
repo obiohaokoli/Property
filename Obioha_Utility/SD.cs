@@ -6,9 +6,9 @@
         {
             GET,
             POST,
-            PUT,
             DELETE,
-
+            PUT
         }
-     }
+
+    }
 }

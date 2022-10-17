@@ -1,9 +1,14 @@
 using Obioha_WebAPP.Configuration;
+using Obioha_WebAPP.Services;
+using Obioha_WebAPP.Services.IServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IHouseService, HouseService>();
+builder.Services.AddScoped<IHouseService, HouseService>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 
