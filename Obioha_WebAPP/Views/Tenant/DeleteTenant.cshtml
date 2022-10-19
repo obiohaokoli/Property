@@ -1,0 +1,138 @@
+﻿@model Obioha_WebAPP.Models.DTO.TenantDTO
+
+<div class="container mx-o">
+    <div class="row m-3"><h2 class="align-content-center"> Delete Tenant</h2></div>
+    <div class="row col-10 border border-black">
+        <form method="post">
+            <input type="hidden" id="GetTenantCreateDTO.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">First Name</label>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <input asp-for="First_Name" class="form-control" readonly />
+
+                   
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Middle Name</label>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <input asp-for=Middle_Name class="form-control" readonly/>
+                   
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Last Name</label>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <input asp-for=Last_Name class="form-control" readonly />
+                    
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Marriage Status</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Marriage_Status class="form-control" readonly />
+                    
+                </div>
+
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">No Of Kids</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=No_Of_kids class="form-control" readonly/>
+                    
+                </div>
+            </div>
+
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Nationality</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Nationality class="form-control" readonly/>
+                    
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Location</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=House_Id class="form-control" readonly/>
+
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy Duration</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Tenancy_Period class="form-control" readonly />
+                    
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy Start Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Tenancy_Start_Date class="form-control" readonly />
+                    
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy End Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Tenancy_End_Date class="form-control" readonly/>
+                    
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label"> Movied In Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=Move_in_date class="form-control" readonly/>
+                    
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Deposite Amount</label>
+                </div>
+                <div class="col-12 col-sm-4 mb-3">
+                    <input asp-for=Deposite_Amount class="form-control" readonly/>
+                    
+                </div>
+            </div>
+            <div class="row offset-sm-2">
+
+                <div class="col-12 col-sm-5 mb-3">
+                    <a class="btn btn-secondary form-control" asp-action="indexTenant">Back To List</a>
+                </div>
+                <div class="col-12 col-sm-5">
+                    <button asp-action="DeleteTenant" asp-route-id="@Model.Id" class="btn btn-primary form-control">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+  }

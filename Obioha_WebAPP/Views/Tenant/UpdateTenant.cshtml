@@ -1,0 +1,142 @@
+﻿@model Obioha_WebAPP.Models.ViewModel.TenantUpdateVM
+
+<div class="container mx-o">
+    <div class="row m-3"><h2 class="align-content-center"> Update Tenant</h2></div>
+    <div class="row col-10 border border-black">
+        <form method="post">
+            <input type="hidden" asp-for="GetTenant.Id" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">First Name</label>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <input asp-for="GetTenant.First_Name" class="form-control" />
+
+                    <span asp-validation-for="GetTenant.First_Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Middle Name</label>
+                </div>
+                <div class="col-12 col-sm-10 ">
+                    <input asp-for=GetTenant.Middle_Name class="form-control" />
+                    <span asp-validation-for="GetTenant.Middle_Name" class="text-danger"></span>
+                </div>
+              </div>
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Last Name</label>
+                </div>
+                <div class="col-12 col-sm-10">
+                    <input asp-for=GetTenant.Last_Name class="form-control" />
+                    <span asp-validation-for="GetTenant.Last_Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Marriage Status</label>
+                </div>
+                <div class="col-12 col-sm-4 ">
+                    <input asp-for=GetTenant.Marriage_Status class="form-control" />
+                    <span asp-validation-for="GetTenant.Marriage_Status" class="text-danger"></span>
+                </div>
+
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">No Of Kids</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.No_Of_kids class="form-control" />
+                    <span asp-validation-for=GetTenant.No_Of_kids class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Nationality</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.Nationality class="form-control" />
+                    <span asp-validation-for="GetTenant.Nationality" class=" text-danger"></span>
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Location</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <select asp-for=GetTenant.House_Id class="form-select" 
+                    asp-items="@Model.tenantList">
+                <option disabled >Select Location</option>
+                    </select>
+                    
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy Duration</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.Tenancy_Period class="form-control" />
+                    <span asp-validation-for="GetTenant.Tenancy_Period" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy Start Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.Tenancy_Start_Date class="form-control" />
+                    <span asp-validation-for="GetTenant.Tenancy_Start_Date" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Tenancy End Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.Tenancy_End_Date class="form-control" />
+                    <span asp-validation-for="GetTenant.Tenancy_End_Date" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-sm-2">
+                    <label class="form-label"> Movied In Date</label>
+                </div>
+                <div class="col-12 col-sm-4">
+                    <input asp-for=GetTenant.Move_in_date class="form-control" />
+                    <span asp-validation-for="GetTenant.Move_in_date" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                    <label class="form-label">Deposite Amount</label>
+                </div>
+                <div class="col-12 col-sm-4 mb-3">
+                    <input asp-for=GetTenant.Deposite_Amount class="form-control" />
+                    <span asp-validation-for="GetTenant.Deposite_Amount" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row offset-sm-2">
+
+                <div class="col-12 col-sm-5 mb-3">
+                    <a class="btn btn-secondary form-control" asp-action="indexTenant">Back To List</a>
+                </div>
+                <div class="col-12 col-sm-5">
+                    <button type="submit" asp-action="UpdateTenant" asp-route-id="@Model.GetTenant.Id" class="btn btn-primary form-control">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+  }

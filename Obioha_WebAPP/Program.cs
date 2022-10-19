@@ -8,7 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IHouseService, HouseService>();
-builder.Services.AddScoped<IHouseService, HouseService>();
+builder.Services.AddHttpClient<ITenantService, TenantService>();
+builder.Services.AddScoped<IUnitOfWorkService, UnitOfWorkService>();
 
 builder.Services.AddAutoMapper(typeof(MappingConfiguration));
 

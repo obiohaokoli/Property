@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Obioha_WebAPP.Models.DTO.HouseDTO>
+
+<div class="container mx-0">
+    <div class="row mx-0 mt-3">
+        <div class="col col-sm-10">
+            <h2>List Of The Obioha's Properties</h2></div>
+        <a class="btn btn-outline-primary col-sm-2 mb-2" asp-controller="House" asp-action="CreateHouse">
+            <i class="bi bi-plus-square-fill"></i>New Property
+        </a>
+        
+    </div>
+    <div class="row">
+        <table class="table table-responsive">
+         <thead>
+                <tr class="table-dark text-white">
+                  
+                    <th>Property Name</th>
+                    <th>Property Type</th>
+                    <th>Purchase Cost</th>
+                    <th>Current Valuation</th>
+                    <th>No of BedRooms</th>
+                    <th>No of Toilet</th>
+                    <th>Purpose</th>
+                    <th>Measurement</th>
+                    <th>Update/Delete</th>
+                    
+                </tr>
+          </thead>
+            <tbody>
+                @foreach (var house in Model)
+                {
+                    <tr>
+                        <td>@house.Name</td>
+                        <td>@house.Property_Type</td>
+                        <td>@house.Purchase_Cost.ToString("c")</td>
+                        <td>@house.Current_Cost.ToString("c")</td>
+                        <td>@house.No_Of_Bedrooms</td>
+                        <td>@house.No_Of_Toilets</td>
+                        <td>@house.Purpose</td>
+                       <td>@house.Square_Feet</td>
+                        
+                        <td>
+                            <a class="btn btn-primary" asp-action="UpdateHouse" asp-route-id="@house.Id">
+                                <i class="bi bi-pencil-square"></i>Update
+                            </a>
+                          <a class="btn btn-danger" asp-action="DeleteHouse" asp-route-id="@house.Id">
+                                <i class="bi bi-trash-fill"></i>Delete
+                            </a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+

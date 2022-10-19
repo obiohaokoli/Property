@@ -15,9 +15,9 @@ namespace Obioha_WebAPP.Models.DTO
         public int No_Of_kids { get; set; }
         public string? Imageurl { get; set; }
         public string Tenancy_Period { get; set; }
-        public string Tenancy_Start_Date { get; set; }
-        public string Tenancy_End_Date { get; set; }
-        public string Move_in_date { get; set; }
+        public DateTime Tenancy_Start_Date { get; set; }
+        public DateTime Tenancy_End_Date { get; set; }
+        public DateTime Move_in_date { get; set; }
         public Decimal Deposite_Amount { get; set; }
 
 

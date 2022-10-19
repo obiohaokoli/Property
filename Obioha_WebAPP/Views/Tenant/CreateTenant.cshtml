@@ -1,0 +1,142 @@
+﻿@model Obioha_WebAPP.Models.ViewModel.TenantCreateVM
+
+<div class="container">
+<div class="row m-3">
+    <h2 class="align-content-center"> Create a New Tenant</h2>
+</div>
+<div class="row col-10 border border-black  d-sm-block">
+    <form asp-action="CreateTenant" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">First Name </label>
+            </div>
+            <div class="col-10">
+                <input asp-for="GetTenantCreateDTO.First_Name" class="form-control" />
+
+                <span asp-validation-for="GetTenantCreateDTO.First_Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Middle Name</label>
+            </div>
+            <div class="col-10">
+                <input asp-for=GetTenantCreateDTO.Middle_Name class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Middle_Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Last Name</label>
+            </div>
+            <div class="col-10">
+                <input asp-for=GetTenantCreateDTO.Last_Name class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Last_Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Marriage Status</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Marriage_Status class="form-control" />
+                <span asp-validation-for="@Model.GetTenantCreateDTO.Marriage_Status" class="text-danger"></span>
+            </div>
+
+
+                <div class="col-12 col-sm-2">
+                <label class="form-label">No of Kids</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.No_Of_kids class="form-control" />
+                <span asp-validation-for=GetTenantCreateDTO.No_Of_kids class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Nationality</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=@Model.GetTenantCreateDTO.Nationality class="form-control" />
+                <span asp-validation-for="@Model.GetTenantCreateDTO.Nationality" class=" text-danger"></span>
+            </div>
+
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Property Location</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <select asp-for=GetTenantCreateDTO.House_Id class="form-select" 
+                asp-items="@Model.TenantLocations">
+            <option disabled selected>Property Location</option>
+            </select>
+             
+            </div>
+        </div>
+
+        <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Tenancy Duration</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Tenancy_Period class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Tenancy_Period" class="text-danger"></span>
+            </div>
+
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Tenancy Start Date </label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Tenancy_Start_Date class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Tenancy_Start_Date" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Tenancy End Date</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Tenancy_End_Date class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Tenancy_End_Date" class="text-danger"></span>
+            </div>
+
+                <div class="col-12 col-sm-2">
+                <label class="form-label"> Move In Date</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Move_in_date class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Move_in_date" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+                <div class="col-12 col-sm-2">
+                <label class="form-label">Deposite Amount</label>
+            </div>
+                <div class="col-12 col-sm-4">
+                <input asp-for=GetTenantCreateDTO.Deposite_Amount class="form-control" />
+                <span asp-validation-for="GetTenantCreateDTO.Deposite_Amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row offset-sm-2">
+
+                <div class="col-12 mb-2 col-sm-5">
+                <a class="btn btn-secondary form-control" asp-action="indexTenant">Back To List</a>
+            </div>
+                <div class="col-12 col-sm-5">
+                <button type="submit" class="btn btn-primary form-control">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+  }

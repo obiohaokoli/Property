@@ -1,0 +1,137 @@
+﻿@model Obioha_WebAPP.Models.DTO.TenantDTO
+
+
+<div class="row m-3">
+    <h2 class="align-content-center"> Create a New Tenant</h2></div>
+<div class="row col-10 border border-black">
+    <form asp-action="CreateHouse" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">First </label>
+            </div>
+            <div class="col-8">
+                <input asp-for="First_Name" class="form-control" />
+
+                <span asp-validation-for="First_Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Middle Name</label>
+            </div>
+            <div class="col-8">
+                <input asp-for=Middle_Name class="form-control" />
+                <span asp-validation-for="Middle_Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Last Name</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Last_Name class="form-control" />
+                <span asp-validation-for="Last_Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Marriage Status</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Marriage_Status class="form-control" />
+                <span asp-validation-for="Marriage_Status" class="text-danger"></span>
+            </div>
+
+
+            <div class="col-2">
+                <label class="form-label">No of Kids</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=No_Of_kids class="form-control" />
+                <span asp-validation-for=No_Of_kids class="text-danger"></span>
+            </div>
+        </div>
+
+
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Nationality</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Nationality class="form-control" />
+                <span asp-validation-for="Nationality" class=" text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="form-label">Property Location</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=House.Name class="form-control" />
+                <span asp-validation-for="House.Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Tenancy Duration</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Tenancy_Period class="form-control" />
+                <span asp-validation-for="Tenancy_Period" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="form-label">Tenancy Start </label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Tenancy_Start_Date class="form-control" />
+                <span asp-validation-for="Tenancy_Start_Date" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Tenancy End</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Tenancy_End_Date class="form-control" />
+                <span asp-validation-for="Tenancy_End_Date" class="text-danger"></span>
+            </div>
+
+            <div class="col-2">
+                <label class="form-label"> Moving Date</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Move_in_date class="form-control" />
+                <span asp-validation-for="Move_in_date" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-2">
+                <label class="form-label">Deposite Amount</label>
+            </div>
+            <div class="col-3">
+                <input asp-for=Deposite_Amount class="form-control" />
+                <span asp-validation-for="Deposite_Amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row offset-2">
+
+            <div class="col-5">
+                <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
+            </div>
+            <div class="col-5">
+                <button type="submit" class="btn btn-primary form-control">Create Property</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+  }
