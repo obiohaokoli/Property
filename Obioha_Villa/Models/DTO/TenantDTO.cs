@@ -19,6 +19,7 @@ namespace Obioha_VillaAPI.Models.DTO
         public string Tenancy_End_Date { get; set; }
         public string Move_in_date { get; set; }
         public Decimal Deposite_Amount { get; set; }
+        public Decimal Rent_Amount { get; set; }
 
 
 

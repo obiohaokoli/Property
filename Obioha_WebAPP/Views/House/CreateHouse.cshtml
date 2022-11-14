@@ -1,135 +1,172 @@
-﻿@model Obioha_WebAPP.Models.DTO.HouseDTO
+﻿@model Obioha_WebAPP.Models.ViewModel.HouseCreateVM
 
-
-    <div class="row m-3"><h2 class="align-content-center"> Create a New House</h2></div>
-    <div class="row col-10 border border-black">
-       <form  asp-action="CreateHouse" method="post">
-        <div  asp-validation-summary="All" class="text-danger"></div>
+<div class="row border border-black">
+    <div class="col-9">
+    <div class="row m-3"><h2 class="align-content-center"> 
+        Create a New House</h2></div>
+    <form asp-action="CreateHouse" method="post" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row mb-2">
             <div class="col-12 col-sm-2">
-               <label class="form-label">Name</label>
-           </div>
+                <label class="form-label">Name</label>
+            </div>
             <div class="col-12 col-sm-10">
-                <input asp-for="Name" class="form-control"/>
-               
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <input asp-for="GetHouse.Name" class="form-control" />
+
+                    <span asp-validation-for="GetHouse.Name" class="text-danger"></span>
             </div>
         </div>
-            <div class="row mb-2">
+        <div class="row mb-2">
             <div class="col-12 col-sm-2">
-                    <label class="form-label">Measurement</label>
-                </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Square_Feet class="form-control" />
-                    <span asp-validation-for="Square_Feet" class="text-danger"></span>
-                    </div>
-
-            <div class="col-12 col-sm-2">
-               <label class="form-label">Purpose Of Purchase</label>
-                   </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Purpose class="form-control"/>
-                    <span asp-validation-for="Purpose" class="text-danger"></span>
-                </div>
+                <label class="form-label">Measurement</label>
             </div>
-
-             <div class="row mb-2">
-            <div class="col-12 col-sm-2">
-               <label class="form-label">No of Sitting Rooms</label>
-                 </div>
             <div class="col-12 col-sm-4">
-                    <input asp-for=Sitting_Room_No class="form-control" />
-                    <span asp-validation-for="Sitting_Room_No" class="text-danger"></span>
-                </div>
-
-
-            <div class="col-12 col-sm-2">
-               <label class="form-label">Propert Type</label>
-                </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Property_Type class="form-control"/>
-                    <span asp-validation-for=Property_Type class="text-danger"></span>
-                </div>
-                </div>
-
-
-                <div class="row mb-2">
-            <div class="col-12 col-sm-2">
-               <label class="form-label">Number Of Rooms</label>
-               </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Bedrooms class="form-control"/>
-                    <span asp-validation-for="No_Of_Bedrooms" class=" text-danger"></span>
+                    <input asp-for=GetHouse.Square_Feet class="form-control" />
+                    <span asp-validation-for="GetHouse.Square_Feet" class="text-danger"></span>
             </div>
 
             <div class="col-12 col-sm-2">
-                    <label class="form-label">No of Toilets</label>
-                </div>
+                <label class="form-label">Purpose Of Purchase</label>
+            </div>
             <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Toilets class="form-control" />
-                    <span asp-validation-for="No_Of_Toilets" class="text-danger"></span>
-                </div>
+                    <input asp-for=GetHouse.Purpose class="form-control" />
+                    <span asp-validation-for="GetHouse.Purpose" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-12 col-sm-2">
+                <label class="form-label">No of Sitting Rooms</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Sitting_Room_No class="form-control" />
+                    <span asp-validation-for="GetHouse.Sitting_Room_No" class="text-danger"></span>
             </div>
 
-            <div class="row mb-2">
-            <div class="col-12 col-sm-2">
-                    <label class="form-label">Purchase Cost</label>
-                </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Purchase_Cost class="form-control" />
-                    <span asp-validation-for="Purchase_Cost " class="text-danger"></span>
-                </div>
 
             <div class="col-12 col-sm-2">
-               <label class="form-label">Current Cost</label>
-                </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Current_Cost class="form-control" />
-                    <span asp-validation-for="Current_Cost" class="text-danger"></span>
-                </div>
+                <label class="form-label">Propert Type</label>
             </div>
-         <div class="row mb-2">
-            <div class="col-12 col-sm-2">
-               <label class="form-label">Date Built</label>
-               </div>
             <div class="col-12 col-sm-4">
-                    <input asp-for=Built_Date class="form-control"/>
-                    <span asp-validation-for="Built_Date" class="text-danger"></span>
-                </div>
+                    <input asp-for=GetHouse.Property_Type class="form-control" />
+                    <span asp-validation-for=GetHouse.Property_Type class="text-danger"></span>
+            </div>
+        </div>
 
+
+        <div class="row mb-2">
             <div class="col-12 col-sm-2">
-                    <label class="form-label"> Date Purchased</label>
-                </div>
+                <label class="form-label">Number Of Rooms</label>
+            </div>
             <div class="col-12 col-sm-4">
-                    <input asp-for=Purchased_Date class="form-control" />
-                    <span asp-validation-for="Purchased_Date" class="text-danger"></span>
-                </div>
+                    <input asp-for=GetHouse.No_Of_Bedrooms class="form-control" />
+                    <span asp-validation-for="GetHouse.No_Of_Bedrooms" class=" text-danger"></span>
             </div>
 
-            <div class="row mb-2">
             <div class="col-12 col-sm-2">
-               <label class="form-label">Occpancy</label>
-               </div>
-            <div class="col-12 col-sm-4">
-                    <input asp-for=Occupancy class="form-control"/>
-                    <span asp-validation-for="Occupancy" class="text-danger"></span>
-                </div>
+                <label class="form-label">No of Toilets</label>
             </div>
-            <div class="row offset-sm-2">
+            <div class="col-12 col-sm-4">
+                <input asp-for=GetHouse.No_Of_Toilets class="form-control" />
+                    <span asp-validation-for="GetHouse.No_Of_Toilets" class="text-danger"></span>
+            </div>
+        </div>
 
-            <div class="col-12 my-3 col-sm-5">
-                    <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
-                  </div>
+        <div class="row mb-2">
+            <div class="col-12 col-sm-2">
+                <label class="form-label">Purchase Cost</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Purchase_Cost class="form-control" />
+                    <span asp-validation-for="GetHouse.Purchase_Cost " class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-sm-2">
+                <label class="form-label">Current Cost</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Current_Cost class="form-control" />
+                    <span asp-validation-for="GetHouse.Current_Cost" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12 col-sm-2">
+                <label class="form-label">Date Built</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Built_Date class="form-control" />
+                    <span asp-validation-for="GetHouse.Built_Date" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-sm-2">
+                <label class="form-label"> Date Purchased</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Purchased_Date class="form-control" />
+                    <span asp-validation-for="GetHouse.Purchased_Date" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-12 col-sm-2">
+                <label class="form-label">Occpancy</label>
+            </div>
+            <div class="col-12 col-sm-4">
+                    <input asp-for=GetHouse.Occupancy class="form-control" />
+                    <span asp-validation-for="GetHouse.Occupancy" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-12 col-sm-2">
+                <label class="form-label">Image</label>
+            </div>
+            <div class="col-12 col-sm-8 my-3">
+                <input asp-for="@Model.files"  type="file" class="form-control" 
+                 id="ImageBox"  multiple />
+              
+            </div>
+        </div>
+      
+
+        <div class="row  offset-sm-2">
+
+            <div class="col-12 mb-3 col-sm-5">
+                <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
+            </div>
             <div class="col-12 col-sm-5">
-                    <button type="submit" class="btn btn-primary form-control">Create</button>
-                </div>
+                <button type="submit" class="btn btn-primary form-control">Create</button>
             </div>
-       </form>
+        </div>
+    </form>
     </div>
 
+<div class="col-sm-3">
+    @if (Model.files != null)
+    {
+        @foreach (var image in Model.files)
+        {
+            <img src="@image.FileName" id="pic" asp-append-version=true 
+            width="100%" alt="title" style="border-radius:5px; border:2px solid black" />
 
+        }
+
+    }
+</div>
+</div>
 @section scripts{
     @{
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
     }
+    <script>
+        var HouseImage = document.getElementById("ImageBox");
+        var HousePic = document.getElementById("pic");
+          const x = function (event){
+            event.target.value;
+            console.log(event.target.value)
+            console.log(HouseImage)
+          }
+           HouseImage.addEventListener('onchange',x)
+             
+      
+    </script>
   }

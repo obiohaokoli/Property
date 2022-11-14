@@ -27,8 +27,9 @@ namespace Obioha_WebAPP.Controllers
         {
             List<TenantDTO> List = null;
           var response = await _UnitService.TenantService.GetAllAsync<APIResponse>();
-            if(response != null)
+            if(response != null && response.IsSuccess)
             {
+               //var JResponse = JsonConvert.SerializeObject(response.Result);
                  List = JsonConvert.DeserializeObject<List<TenantDTO>>(Convert.ToString(response.Result));
 
             }

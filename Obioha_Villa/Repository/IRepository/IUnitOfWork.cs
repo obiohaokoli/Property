@@ -4,6 +4,7 @@
     {
         IHouseRepository House { get; }
         ITenantRepository Tenant { get; }
+        IImageRepository Image { get; }
 
         Task SaveAsync();
     }

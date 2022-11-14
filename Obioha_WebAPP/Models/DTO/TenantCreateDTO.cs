@@ -12,6 +12,8 @@ namespace Obioha_WebAPP.Models.DTO
         public int House_Id { get; set; }
         public string Nationality { get; set; }
         public string Marriage_Status { get; set; }
+
+        [Range(0,5,ErrorMessage ="This is between 0 to 5")]
         public int No_Of_kids { get; set; }
         public string? Imageurl { get; set; }
         public string Tenancy_Period { get; set; }

@@ -12,6 +12,7 @@ namespace Obioha_VillaAPI.Data
 
        public DbSet<House> Houses { get; set; }
        public DbSet<Tenant> Tenants { get; set; }
+       public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         
@@ -31,7 +32,6 @@ namespace Obioha_VillaAPI.Data
                     Purpose = "Buy to Let",
                     Sitting_Rooms_No = 2,
                     Square_Feet = 75,
-                    ImageUrl = "Manchester.jpg",
                     Purchased_Date = new DateTime(2021 - 06 - 21),
                     Created_Date = DateTime.Now,
                     Updated_Date = DateTime.Now
@@ -51,7 +51,6 @@ namespace Obioha_VillaAPI.Data
                      Purpose = "Buy to Let",
                      Sitting_Rooms_No = 2,
                      Square_Feet = 75,
-                     ImageUrl = "Derby.jpg",
                      Purchased_Date = new DateTime(2022 - 10 - 30),
                      Created_Date = DateTime.Now,
                      Updated_Date = DateTime.Now

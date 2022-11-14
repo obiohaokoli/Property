@@ -1,141 +1,186 @@
-﻿@model Obioha_WebAPP.Models.DTO.HouseDTO
+﻿@model Obioha_WebAPP.Models.ViewModel.HouseVM
 
 <div class="container mx-o align-content-sm-center">
-    <div class="row m-3"><h2 class="align-content-center"> Delete Property</h2></div>
-    <div class="row col-10 border border-black">
-        <form method="post">
-            <input type="hidden" id="@Model.Id" />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Name</label>
-                </div>
-                <div class="col-12 col-sm-10">
-                    <input asp-for="Name" class="form-control" readonly/>
+    <div class="row m-3">
+        <div class="col-12 h2 align-content-center">
+            Delete Property
+        </div>
+    </div>
+    <div class="row">
+        <div class=" col-12 col-sm-9 border border-black">
+            <form method="post">
+                <input type="hidden" asp-for="houseDTO.Id" />
 
-                  
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Name</label>
+                    </div>
+                    <div class="col-12 col-sm-10">
+                        <input asp-for="houseDTO.Name" class="form-control" readonly />
+
+
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Measurement</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Square_Feet class="form-control" readonly />
+
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Purpose Of Purchase</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Purpose class="form-control" readonly />
+
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">No of Sitting Rooms</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Sitting_Room_No class="form-control" readonly />
+
+                    </div>
+
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Propert Type</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Property_Type class="form-control" readonly />
+
+                    </div>
+                </div>
+
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Number Of Rooms</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.No_Of_Bedrooms class="form-control" readonly />
+
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">No of Toilets</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.No_Of_Toilets class="form-control" readonly />
+
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Purchase Cost</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Purchase_Cost class="form-control" readonly />
+
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Current Cost</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Current_Cost class="form-control" readonly />
+
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Date Built</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Built_Date class="form-control" readonly />
+
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label"> Date Purchased</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Purchased_Date class="form-control" readonly />
+
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Occpancy</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=houseDTO.Occupancy class="form-control" readonly />
+
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Image</label>
+                    </div>
+                    <div class="col-12 col-sm-8 my-3">
+                        <input asp-for="imageList" type="file" class="form-control"
+                               id="ImageBox" multiple />
+
+                    </div>
+                </div>
+                <div class="row offset-sm-2 my-3">
+
+                    <div class="col-12 mb-2 col-sm-5">
+                        <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
+                    </div>
+                    <div class="col-12 col-sm-5">
+                        <button asp-action="DeleteHouse" asp-route-id="houseDTO.Id" class="btn btn-danger form-control">Delete Property</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-12 col-sm-3">
+            <div class="row">
+                <div class="col-12">
+
+                    @if (Model.imageList != null)
+                    {
+                        @foreach (var image in Model.imageList)
+                        {
+                            <img src="@image.fileName" asp-append-version=true class="thumbnail" />
+
+
+                        }
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-12 col-3 h2 text-danger">
+                                No Image Found!
+                            </div>
+                        </div>
+                    }
+
+
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Measurement</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Square_Feet class="form-control" readonly />
-                 
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Purpose Of Purchase</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purpose class="form-control" readonly/>
-                   
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">No of Sitting Rooms</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Sitting_Room_No class="form-control" readonly/>
-                    
-                </div>
-
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Propert Type</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Property_Type class="form-control" readonly/>
-                    
-                </div>
-            </div>
-
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Number Of Rooms</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Bedrooms class="form-control" readonly/>
-                  
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">No of Toilets</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Toilets class="form-control" readonly/>
-                    
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Purchase Cost</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purchase_Cost class="form-control" readonly/>
-                  
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Current Cost</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Current_Cost class="form-control" readonly />
-                   
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Date Built</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Built_Date class="form-control" readonly/>
-                   
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label"> Date Purchased</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purchased_Date class="form-control" readonly />
-                   
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Occpancy</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Occupancy class="form-control"  readonly/>
-                   
-                </div>
-            </div>
-            <div class="row offset-sm-2 my-3">
-
-                <div class="col-12 mb-2 col-sm-5">
-                    <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
-                </div>
-                <div class="col-12 col-sm-5">
-                    <button asp-action="DeleteHouse" asp-route-id="@Model.Id" class="btn btn-danger form-control">Delete Property</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-         @section scripts{
+@section scripts{
     @{
-    <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
   }
 
-           @* Swal.fire({
+    @* Swal.fire({
   title: 'Are you sure?',
   text: "You won't be able to revert this!",
   icon: 'warning',

@@ -25,6 +25,7 @@ namespace Obioha_VillaAPI.Models
         public DateTime Tenancy_End_Date { get; set; }
         public DateTime Move_in_date { get; set; }
         public Decimal Deposite_Amount { get; set; }
+        public Decimal Rent_Amount { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }
 

@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+   
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,4 +26,5 @@
     <None Include="Views\Tenant\AddTenant.cshtml" />
   </ItemGroup>
 
+ 
 </Project>

@@ -39,9 +39,6 @@ namespace Obioha_VillaAPI.Migrations
                     b.Property<decimal>("Current_Cost")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -84,9 +81,8 @@ namespace Obioha_VillaAPI.Migrations
                         {
                             Id = 1,
                             Built_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1949),
-                            Created_Date = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8803),
+                            Created_Date = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7342),
                             Current_Cost = 190000m,
-                            ImageUrl = "Manchester.jpg",
                             Name = "Manchester_One",
                             No_Of_Bedrooms = 3,
                             No_Of_Toilets = 2,
@@ -97,15 +93,14 @@ namespace Obioha_VillaAPI.Migrations
                             Purpose = "Buy to Let",
                             Sitting_Rooms_No = 2,
                             Square_Feet = 75,
-                            Updated_Date = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8842)
+                            Updated_Date = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7389)
                         },
                         new
                         {
                             Id = 2,
                             Built_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(1969),
-                            Created_Date = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8847),
+                            Created_Date = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7393),
                             Current_Cost = 132000m,
-                            ImageUrl = "Derby.jpg",
                             Name = "Derby_One",
                             No_Of_Bedrooms = 2,
                             No_Of_Toilets = 1,
@@ -116,8 +111,33 @@ namespace Obioha_VillaAPI.Migrations
                             Purpose = "Buy to Let",
                             Sitting_Rooms_No = 2,
                             Square_Feet = 75,
-                            Updated_Date = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8849)
+                            Updated_Date = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7395)
                         });
+                });
+
+            modelBuilder.Entity("Obioha_VillaAPI.Models.Image", b =>
+                {
+                    b.Property<int>("Image_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Image_Id"), 1L, 1);
+
+                    b.Property<int>("House_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Image_Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("fileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Image_Id");
+
+                    b.HasIndex("House_Id");
+
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("Obioha_VillaAPI.Models.Tenant", b =>
@@ -164,6 +184,9 @@ namespace Obioha_VillaAPI.Migrations
                     b.Property<int>("No_Of_kids")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("Rent_Amount")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<DateTime>("Tenancy_End_Date")
                         .HasColumnType("datetime2");
 
@@ -187,7 +210,7 @@ namespace Obioha_VillaAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8939),
+                            CreatedDate = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7487),
                             Deposite_Amount = 1200m,
                             First_Name = "Micheal",
                             House_Id = 0,
@@ -198,15 +221,16 @@ namespace Obioha_VillaAPI.Migrations
                             Move_in_date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
                             Nationality = "Nigeria",
                             No_Of_kids = 2,
+                            Rent_Amount = 0m,
                             Tenancy_End_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2014),
                             Tenancy_Period = "one year",
                             Tenancy_Start_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            UpdatedDate = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8944)
+                            UpdatedDate = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7492)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8947),
+                            CreatedDate = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7494),
                             Deposite_Amount = 1200m,
                             First_Name = "Peter",
                             House_Id = 0,
@@ -217,11 +241,23 @@ namespace Obioha_VillaAPI.Migrations
                             Move_in_date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
                             Nationality = "Nigeria",
                             No_Of_kids = 2,
+                            Rent_Amount = 0m,
                             Tenancy_End_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2014),
                             Tenancy_Period = "one year",
                             Tenancy_Start_Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2013),
-                            UpdatedDate = new DateTime(2022, 10, 15, 9, 27, 15, 980, DateTimeKind.Local).AddTicks(8950)
+                            UpdatedDate = new DateTime(2022, 10, 23, 1, 18, 19, 614, DateTimeKind.Local).AddTicks(7496)
                         });
+                });
+
+            modelBuilder.Entity("Obioha_VillaAPI.Models.Image", b =>
+                {
+                    b.HasOne("Obioha_VillaAPI.Models.House", "House")
+                        .WithMany("House_Images")
+                        .HasForeignKey("House_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("House");
                 });
 
             modelBuilder.Entity("Obioha_VillaAPI.Models.Tenant", b =>
@@ -233,6 +269,11 @@ namespace Obioha_VillaAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("House");
+                });
+
+            modelBuilder.Entity("Obioha_VillaAPI.Models.House", b =>
+                {
+                    b.Navigation("House_Images");
                 });
 #pragma warning restore 612, 618
         }

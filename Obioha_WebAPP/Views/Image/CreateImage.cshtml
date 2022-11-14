@@ -1,0 +1,60 @@
+﻿@model Obioha_WebAPP.Models.ViewModel.ImageCreateVM;
+<div class="container">
+    
+    <div class="row">
+     <div class="col-12 col-sm-6">
+        <div class="row my-2">
+        <div class="col-12 h1 align-content-center">
+            Upload More Images
+        </div>
+         </div>
+    <div class="row">
+        <div class="col-12">
+            <form method="post" asp-action="CreateImage" enctype="multipart/form-data">
+                <input asp-for="ImageList.House_Id" type="hidden" />
+
+                <div class="row mb-2">
+                  @*  <div class="col-12">
+                        <label class="form-label h2">Image</label>
+                    </div>*@
+                    <input asp-for="@Model.file"  class="form-control" />
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-12">
+                        <label  class="form-label h3">Short Image Description</label>
+                    </div>
+                            <input asp-for="ImageList.Image_Description" class="form-control" />
+                        @*<textarea asp-for="CreateImage.Image_Description" class="form-control"> </textarea>*@
+                </div>
+               
+
+                <div class="row mt-2">
+                    <div class="col-12 col-sm-6">
+                        <button class="btn btn-success form-control Radius" asp-action="IndexHouse" 
+                        asp-controller="House">Back</button>
+                    </div>
+
+                    <div class="col-12 col-sm-6">
+                        <button type="submit" class="btn btn-primary form-control Radius">
+                            Upload Image
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+ </div>
+</div>
+@section Scripts{
+    <script>
+        
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}

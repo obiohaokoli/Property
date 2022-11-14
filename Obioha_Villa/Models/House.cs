@@ -17,12 +17,17 @@ namespace Obioha_VillaAPI.Models
         public int  No_Of_Bedrooms { get; set; }
         public int  Sitting_Rooms_No { get; set; }
         public int  No_Of_Toilets{ get; set; }
-        public string? ImageUrl { get; set; }
         public int  Occupancy { get; set; }
+        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}")]
         public DateTime Created_Date { get; set; }
+        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}")]
         public DateTime Updated_Date { get; set; }
+        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}")]
         public DateTime Purchased_Date { get; set; }
-        public DateTime? Built_Date { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:DD/MM/YYYY}")]
+        public DateTime Built_Date { get; set; }
+        public  List<Image>? House_Images { get; set; }
 
     }
 }

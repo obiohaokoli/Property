@@ -1,138 +1,211 @@
-﻿@model Obioha_WebAPP.Models.DTO.HouseUpdateDTO
+﻿@model Obioha_WebAPP.Models.ViewModel.HouseUpdateVM
 
 <div class="container mx-o">
-    <div class="row m-3"><h2 class="align-content-center"> Update Property</h2></div>
-    <div class="row col-10 border border-black">
-        <form method="post">
-            <input type="hidden" id="@Model.Id" />
-            <div asp-validation-summary="All" class="text-danger"></div>
-           
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Name</label>
-                </div>
-                <div class="col-12 col-sm-10">
-                    <input asp-for="Name" class="form-control" />
+    <div class="row m-3">
+        <div class="col-12 h2 align-content-center">
+            Update Property
+        </div>
+        <div class="row col-9 border border-black">
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="UpdateHouse.Id" />
 
-                    <span asp-validation-for="Name" class="text-danger"></span>
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Name</label>
+                    </div>
+                    <div class="col-12 col-sm-10">
+                        <input asp-for="UpdateHouse.Name" class="form-control" />
+
+                        <span asp-validation-for="UpdateHouse.Name" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Measurement</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Square_Feet class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Square_Feet" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Purpose Of Purchase</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Purpose class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Purpose" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">No of Sitting Rooms</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Sitting_Room_No class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Sitting_Room_No" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Propert Type</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Property_Type class="form-control" />
+                        <span asp-validation-for=UpdateHouse.Property_Type class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Number Of Rooms</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.No_Of_Bedrooms class="form-control" />
+                        <span asp-validation-for="UpdateHouse.No_Of_Bedrooms" class=" text-danger"></span>
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">No of Toilets</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.No_Of_Toilets class="form-control" />
+                        <span asp-validation-for="UpdateHouse.No_Of_Toilets" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Purchase Cost</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Purchase_Cost class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Purchase_Cost " class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Current Cost</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Current_Cost class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Current_Cost" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Date Built</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Built_Date class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Built_Date" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label"> Date Purchased</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Purchased_Date class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Purchased_Date" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Occpancy</label>
+                    </div>
+                    <div class="col-12 col-sm-4">
+                        <input asp-for=UpdateHouse.Occupancy class="form-control" />
+                        <span asp-validation-for="UpdateHouse.Occupancy" class="text-danger"></span>
+                    </div>
+                </div>
+               @* <div class="row mb-2">
+                    <div class="col-12 col-sm-2">
+                        <label class="form-label">Image</label>
+                    </div>
+
+                    <div class="col-12 col-sm-8 my-3">
+                        <input asp-for="@Model.files" type="file" class="form-control" multiple />
+
+                    </div>
+
+                </div>*@
+
+
+                <div class="row offset-sm-2">
+
+                    <div class="col-12 col-sm-5 mb-3">
+                        <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
+                    </div>
+                    <div class="col-12 col-sm-5">
+                        <button asp-action="UpdateHouse" asp-route-id="@Model.UpdateHouse.Id" class="btn btn-primary form-control">Update</button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-12 col-sm-3 mx-sm-0">
+            <div class="row">
+
+                <div class="col-12">
+              
+                  @if (Model.UpdateImageList != null)
+                    {
+
+                     <div class="col-12 mb-2">
+                    <a class="btn btn-primary form-control" asp-route-Id="@Model.UpdateHouse.Id"
+                       asp-action="CreateImage" asp-controller="Image"
+                       style="border-radius:15px;">
+                        Create More Images
+                    </a>
+                       </div>
+                        @foreach (var image in Model.UpdateImageList)
+                        {
+                            <img src="@image.fileName" asp-append-version=true class="thumbnail" id="@image.Image_Id"/>
+                            <div class="row my-1">
+                                
+                                <div class="col-12 col-sm-6">
+                                    <a asp-route-id="@Model.UpdateHouse.Id" class="btn btn-success form-control"
+                                    style="border-radius:15px;" >
+                                        Edit
+                                    </a>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <a class="btn btn-danger form-control" asp-action="DeleteImage" asp-controller="Image"
+                                    style="border-radius:15px;" asp-route-id="@image.Image_Id">Delete</a>
+                                </div>
+
+                                <hr />
+                            </div>
+
+                        }
+                    }
+                    else{
+                        <div class="row">
+                          <div class="col-12 col-3 h2 text-danger">
+                              No Image Found!
+                          </div></div>
+                    }
+
+
+
+
+                    
+
+
                 </div>
             </div>
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Measurement</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Square_Feet class="form-control" />
-                    <span asp-validation-for="Square_Feet" class="text-danger"></span>
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Purpose Of Purchase</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purpose class="form-control" />
-                    <span asp-validation-for="Purpose" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">No of Sitting Rooms</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Sitting_Room_No class="form-control" />
-                    <span asp-validation-for="Sitting_Room_No" class="text-danger"></span>
-                </div>
-
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Propert Type</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Property_Type class="form-control" />
-                    <span asp-validation-for=Property_Type class="text-danger"></span>
-                </div>
-            </div>
-
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Number Of Rooms</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Bedrooms class="form-control" />
-                    <span asp-validation-for="No_Of_Bedrooms" class=" text-danger"></span>
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">No of Toilets</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=No_Of_Toilets class="form-control" />
-                    <span asp-validation-for="No_Of_Toilets" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Purchase Cost</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purchase_Cost class="form-control" />
-                    <span asp-validation-for="Purchase_Cost " class="text-danger"></span>
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Current Cost</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Current_Cost class="form-control" />
-                    <span asp-validation-for="Current_Cost" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Date Built</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Built_Date class="form-control" />
-                    <span asp-validation-for="Built_Date" class="text-danger"></span>
-                </div>
-
-                <div class="col-12 col-sm-2">
-                    <label class="form-label"> Date Purchased</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Purchased_Date class="form-control" />
-                    <span asp-validation-for="Purchased_Date" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="row mb-2">
-                <div class="col-12 col-sm-2">
-                    <label class="form-label">Occpancy</label>
-                </div>
-                <div class="col-12 col-sm-4">
-                    <input asp-for=Occupancy class="form-control" />
-                    <span asp-validation-for="Occupancy" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="row offset-sm-2">
-
-                <div class="col-12 col-sm-5 mb-3">
-                    <a class="btn btn-secondary form-control" asp-action="indexHouse">Back To List</a>
-                </div>
-                <div class="col-12 col-sm-5">
-                    <button asp-action="UpdateHouse" asp-route-id="@Model.Id" class="btn btn-primary form-control">Update</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
+
 </div>
+
 
 
 @section scripts{
     @{
-        <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial" />
     }
   }

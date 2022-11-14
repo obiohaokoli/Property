@@ -8,6 +8,7 @@ namespace Obioha_VillaAPI.Repository
     {
         public IHouseRepository House { get; private set; }
         public ITenantRepository Tenant { get; private set; }
+        public IImageRepository Image { get; private set; }
 
         private readonly ApplicationDbContext _db;
         public UnitOfWork(ApplicationDbContext db)
@@ -15,6 +16,7 @@ namespace Obioha_VillaAPI.Repository
             _db = db;
             House = new HouseRepository(db);
             Tenant = new TenantRepository(db);
+            Image = new ImageRepository(db);    
          }
 
         public async Task SaveAsync()

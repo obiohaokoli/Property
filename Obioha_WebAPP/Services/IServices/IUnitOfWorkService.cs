@@ -4,5 +4,6 @@
     {
         IHouseService HouseService { get; }
         ITenantService TenantService { get; }
+        IImageService ImageService { get; }
     }
 }

@@ -6,6 +6,7 @@ namespace Obioha_WebAPP.Services
     {
         public IHouseService HouseService { get; }
         public ITenantService TenantService { get; }
+        public IImageService ImageService { get; }
 
         private readonly IHttpClientFactory _httpClientFactory;
         private string UrlPart;
@@ -18,6 +19,7 @@ namespace Obioha_WebAPP.Services
             HouseService = new HouseService(factory, configuration);
 
             TenantService = new TenantService(factory, configuration);
+            ImageService = new ImageService(factory, configuration);
            
         }
     }

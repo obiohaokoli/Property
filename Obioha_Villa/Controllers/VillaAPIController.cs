@@ -22,7 +22,7 @@ namespace Obioha_VillaAPI.Controllers
         private readonly ILogging _logger;
         private readonly IUnitOfWork _UOfWork;
         private readonly IMapper _mapper;
-      
+
         public VillaAPIController(ILogging logger, IUnitOfWork uw, IMapper mapper)
         {
             _logger = logger;
@@ -30,13 +30,14 @@ namespace Obioha_VillaAPI.Controllers
             _mapper = mapper;
             this._response = new();
         }
-        [HttpGet(Name ="GetAllHouses")]
+        [HttpGet(Name = "GetAllHouses")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetHouses()
         {
             try
             {
                 IEnumerable<House> houseList = await _UOfWork.House.GetAllAsync();
+                
                 _response.Result = _mapper.Map<List<HouseDTO>>(houseList);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
@@ -56,20 +57,24 @@ namespace Obioha_VillaAPI.Controllers
         //[ProducesResponseType(typeof(VillaDTO), 200)]
         public async Task<ActionResult<APIResponse>> GetHouse(int id)
         {
-            try { 
-        if (id == 0)
+            try
             {
-                   return BadRequest("Id cannot be zero!");
-            }
+                if (id == 0)
+                {
+                    return BadRequest("Id cannot be zero!");
+                }
 
-            var house = await _UOfWork.House.GetAsync(x => x.Id == id);
-            if (house == null)
-            {
-                return NotFound("the object does not exist");
-            }
-           _response.Result= _mapper.Map<HouseDTO>(house);
-            _response.StatusCode = HttpStatusCode.OK;
-            return  Ok(_response);
+                var house = await _UOfWork.House.GetAsync(x => x.Id == id);
+                   
+                
+
+                if (house == null)
+                {
+                    return NotFound("the object does not exist");
+                }
+                _response.Result = _mapper.Map<HouseDTO>(house);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
             }
             catch (Exception ex)
             {
@@ -86,25 +91,26 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
         public async Task<ActionResult<APIResponse>> CreateProperty([FromBody] HouseCreateDTO houseCreateDTO)
         {
-            try { 
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-            if (houseCreateDTO == null)
-            {
-                return NotFound("The object should not be empty!!");
-            }
-            //converting houseUpdateDTO to House model
-          House house =  _mapper.Map<House>(houseCreateDTO);
-           await _UOfWork.House.AddAsync(house);
-            await _UOfWork.SaveAsync();
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                if (houseCreateDTO == null)
+                {
+                    return NotFound("The object should not be empty!!");
+                }
+                //converting houseUpdateDTO to House model
+                House house = _mapper.Map<House>(houseCreateDTO);
+                await _UOfWork.House.AddAsync(house);
+                await _UOfWork.SaveAsync();
 
-            //change back to dto because the return type is dto
-           _response.Result = _mapper.Map<HouseCreateDTO>(house);
-         CreatedAtRoute("GetVilla", new { id = house.Id } , _response);
-            _response.StatusCode = HttpStatusCode.Created;
-            return  _response;
+                //change back to dto because the return type is dto
+                _response.Result = _mapper.Map<HouseCreateDTO>(house);
+                CreatedAtRoute("GetVilla", new { id = house.Id }, _response);
+                _response.StatusCode = HttpStatusCode.Created;
+                return _response;
             }
             catch (Exception ex)
             {
@@ -122,21 +128,22 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> RemoveProperty(int id)
         {
-            try { 
-            if (id == 0)
+            try
             {
-                return BadRequest("Object to delete not found");
-            }
-            House house =await _UOfWork.House.GetAsync(c => c.Id == id);
-            if (house == null)
-            {
-                return NotFound("Object is not available");
-            }
-           await _UOfWork.House.RemoveAsync(house);
+                if (id == 0)
+                {
+                    return BadRequest("Object to delete not found");
+                }
+                House house = await _UOfWork.House.GetAsync(c => c.Id == id);
+                if (house == null)
+                {
+                    return NotFound("Object is not available");
+                }
+                await _UOfWork.House.RemoveAsync(house);
                 await _UOfWork.SaveAsync();
                 //return CreatedAtRoute("deletedVilla",id,house);
                 _response.StatusCode = HttpStatusCode.NoContent;
-            return  _response;
+                return _response;
             }
             catch (Exception ex)
             {
@@ -153,18 +160,19 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> EditProperty(int id, [FromBody] HouseUpdateDTO houseUpdateDTO)
         {
-            try { 
-            if (id == 0 && houseUpdateDTO == null)
+            try
             {
-                return BadRequest("The Id's has to be same");
-            }
-              House house = _mapper.Map<House>(houseUpdateDTO);
-           
-           await _UOfWork.House.UpdateHouseAsync(house);
+                if (id == 0 && houseUpdateDTO == null)
+                {
+                    return BadRequest("The Id's has to be same");
+                }
+                House house = _mapper.Map<House>(houseUpdateDTO);
+
+                await _UOfWork.House.UpdateHouseAsync(house);
                 await _UOfWork.SaveAsync();
                 _response.Result = _mapper.Map<HouseUpdateDTO>(house);
-            _response.StatusCode = HttpStatusCode.NoContent;
-            return _response;
+                _response.StatusCode = HttpStatusCode.NoContent;
+                return _response;
             }
             catch (Exception ex)
             {
@@ -181,34 +189,35 @@ namespace Obioha_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> PatialEdit(int id, JsonPatchDocument<HouseUpdateDTO> jsonPatch)
         {
-            try { 
-            if (id == 0 && jsonPatch == null)
+            try
             {
-                return BadRequest("verify the id and jsonPatch");
-            }
+                if (id == 0 && jsonPatch == null)
+                {
+                    return BadRequest("verify the id and jsonPatch");
+                }
 
-        House house = await _UOfWork.House.GetAsync(villa => villa.Id == id,
-            tracked:false);
+                House house = await _UOfWork.House.GetAsync(villa => villa.Id == id,
+                    tracked: false);
 
-            if (house == null)
-            {
-                return BadRequest("Villa not found");
-            }
-            //change house mode to houseUpdateDTO
-            HouseUpdateDTO updateDTO = _mapper.Map<HouseUpdateDTO>(house);
-        
-            jsonPatch.ApplyTo(updateDTO, ModelState);
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("customError", "the model error");
-            }
-            //convert from HouseUpdateDTO to House Model
-            House houseUpdate = _mapper.Map<House>(updateDTO);
-         
-           await _UOfWork.House.UpdateHouseAsync(houseUpdate);
-            await _UOfWork.SaveAsync();
+                if (house == null)
+                {
+                    return BadRequest("Villa not found");
+                }
+                //change house mode to houseUpdateDTO
+                HouseUpdateDTO updateDTO = _mapper.Map<HouseUpdateDTO>(house);
+
+                jsonPatch.ApplyTo(updateDTO, ModelState);
+                if (!ModelState.IsValid)
+                {
+                    ModelState.AddModelError("customError", "the model error");
+                }
+                //convert from HouseUpdateDTO to House Model
+                House houseUpdate = _mapper.Map<House>(updateDTO);
+
+                await _UOfWork.House.UpdateHouseAsync(houseUpdate);
+                await _UOfWork.SaveAsync();
                 _response.StatusCode = HttpStatusCode.NoContent;
-            return _response;
+                return _response;
             }
             catch (Exception ex)
             {

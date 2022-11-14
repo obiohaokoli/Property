@@ -12,6 +12,10 @@ namespace Obioha_VillaAPI.Configuration
             CreateMap<House, HouseCreateDTO>().ReverseMap();
             CreateMap<House, HouseUpdateDTO>().ReverseMap();
 
+            CreateMap<Image, ImageDTO>().ReverseMap();
+            CreateMap<Image, ImageCreateDTO>().ReverseMap();
+            CreateMap<Image, ImageUpdateDTO>().ReverseMap();
+
             CreateMap<Tenant, TenantDTO>().ReverseMap();
             CreateMap<Tenant, TenantCreateDTO>().ReverseMap();
             CreateMap<Tenant, TenantUpdateDTO>().ReverseMap();
