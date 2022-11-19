@@ -9,16 +9,14 @@ namespace Obioha_WebAPP.Models.ViewModel
         {
             UpdateHouse = new HouseUpdateDTO();
             UpdateImageList = new List<ImageUpdateDTO>();
-           // files = new List<IFormFile>();
+         
            
 
         }
         public HouseUpdateDTO UpdateHouse { get; set; }
         [ValidateNever]
         public List<ImageUpdateDTO> UpdateImageList { get; set; }
-        //[ValidateNever]
-        //public List<IFormFile> files { get; set; }
-
+       
        
         
     }
