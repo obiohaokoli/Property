@@ -247,7 +247,7 @@ namespace Obioha_WebAPP.Controllers
 
 
         //......................other methods.................................
-        public async Task<HouseCreateVM> GetHouseImageAsync(HouseCreateVM houseCreateVM)
+        private async Task<HouseCreateVM> GetHouseImageAsync(HouseCreateVM houseCreateVM)
         {
 
 
