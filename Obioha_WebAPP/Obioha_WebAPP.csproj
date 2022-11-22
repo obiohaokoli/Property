@@ -26,5 +26,9 @@
     <None Include="Views\Tenant\AddTenant.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
  
 </Project>
