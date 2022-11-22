@@ -1,21 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing.Constraints;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using NuGet.Protocol;
 using Obioha_WebAPP.Models;
 using Obioha_WebAPP.Models.DTO;
 using Obioha_WebAPP.Models.ViewModel;
 using Obioha_WebAPP.Services.IServices;
-using System.IO;
-using System.Runtime.CompilerServices;
-using static System.Net.WebRequestMethods;
 
 namespace Obioha_WebAPP.Controllers
 {
     public class HouseController : Controller
-    {   //private readonly IHouseService _UnitService;
+    {  
         private readonly IUnitOfWorkService _UnitService;
         private IMapper _mapper;
         private APIResponse _response;
@@ -29,14 +23,12 @@ namespace Obioha_WebAPP.Controllers
 
         public async Task<IActionResult> IndexHouse()
         {
-            //expecting return type of housedto
             List<HouseDTO> List = new();
 
-            //got json as the responset
             var response = await _UnitService.HouseService.GetAllAsync<APIResponse>();
 
             if (response != null && response.IsSuccess)
-            {           //deserialise the json responset to List<HouseDTO>
+            {    
                 List = JsonConvert.DeserializeObject<List<HouseDTO>>(Convert.ToString(response.Result));
             }
             return View(List);
@@ -44,7 +36,7 @@ namespace Obioha_WebAPP.Controllers
 
         public async Task<IActionResult> GetSingleHouse(int id)
         {
-            HouseDTO house = null;
+            HouseDTO house = new();  
             var response = await _UnitService.HouseService.GetAsync<APIResponse>(id);
             if (response != null && response.IsSuccess)
             {
@@ -57,7 +49,7 @@ namespace Obioha_WebAPP.Controllers
         //......................Createinh..................................
         public async Task<IActionResult> CreateHouse()
         {
-            HouseCreateVM houseCreateVM = new HouseCreateVM();
+            HouseCreateVM houseCreateVM = new();
             return View(houseCreateVM);
         }
         [HttpPost]
@@ -67,7 +59,7 @@ namespace Obioha_WebAPP.Controllers
             if (ModelState.IsValid)
             {
 
-                HouseCreateVM houseCreateVM = new HouseCreateVM();
+                HouseCreateVM houseCreateVM = new();
                 houseCreateVM.files = createDTO.files;
 
                 var response = await _UnitService.HouseService.CreateAsync<APIResponse>(createDTO.GetHouse);
@@ -93,8 +85,7 @@ namespace Obioha_WebAPP.Controllers
         }
 
 
-        //....................Updating.............................
-       // [HttpGet]
+        //....................Updating............................
         public async Task<IActionResult> UpdateHouse(int id)
         {
 
@@ -102,31 +93,27 @@ namespace Obioha_WebAPP.Controllers
 
             var response = await _UnitService.HouseService.GetAsync<APIResponse>(id);
 
-
-            if (response != null && response.IsSuccess)
+          if (response != null && response.IsSuccess)
             {
                 houseUpdateVM.UpdateHouse = JsonConvert.DeserializeObject<HouseUpdateDTO>(Convert.ToString(response.Result));
 
             }
-
-            var responseList = await _UnitService.ImageService.GetAllAsync<APIResponse>();
+          var responseList = await _UnitService.ImageService.GetAllAsync<APIResponse>();
             if (responseList.Result != null && responseList.IsSuccess)
             {
                 houseUpdateVM.UpdateImageList = null;
-                //houseUpdateVM.files = null;
-
-                var JsonResponce = JsonConvert.SerializeObject(responseList.Result);
+                
+               var JsonResponce = JsonConvert.SerializeObject(responseList.Result);
                 var imageList = JsonConvert.DeserializeObject<List<ImageUpdateDTO>>(Convert.ToString(JsonResponce))
                     .Where(x => x.House_Id == id).ToList();
 
                 if (imageList.Count > 0)
                 {
-                    // houseUpdateVM.UpdateImageList = imageList;
                     foreach (var image in imageList)
-                    {
-                        var fileName = Guid.NewGuid().ToString() + "_" + image;
-                        var upload = Path.Combine(_host.WebRootPath, @"Images");
-                        var filePath = Path.Combine(upload, fileName);
+                    {   
+                        var dto = _mapper.Map<ImageDTO>(image);
+
+                        RefactorFile(dto);
 
                         houseUpdateVM.UpdateImageList = imageList;
                     }
@@ -137,7 +124,7 @@ namespace Obioha_WebAPP.Controllers
                 {
                     TempData["error"] = " Image is empty!!";
                     return View(houseUpdateVM);
-                    //return RedirectToAction(nameof(IndexHouse)); 
+                   
                 }
             }
 
@@ -155,21 +142,16 @@ namespace Obioha_WebAPP.Controllers
 
             if (ModelState.IsValid)
             {
-
-               // houseUpdateVM.files = updateDTO.files;
                 houseUpdateVM.UpdateImageList = null;
                 houseUpdateVM.UpdateHouse = updateDTO.UpdateHouse;
+
                 var response = await _UnitService.HouseService.UpdateAsync<APIResponse>(updateDTO.UpdateHouse);
 
-              
+                TempData["success"] = "successfully Updated!!";
                 return RedirectToAction(nameof(IndexHouse));
             }
             TempData["error"] = "Fail To Update!!";
             return View(houseUpdateVM);
-
-            //return BadRequest();
-
-
         }
 
 
@@ -180,8 +162,7 @@ namespace Obioha_WebAPP.Controllers
         {
             HouseVM houseVM = new();
 
-
-            var jsonResult = await _UnitService.ImageService.GetAllAsync<APIResponse>();
+          var jsonResult = await _UnitService.ImageService.GetAllAsync<APIResponse>();
             if (jsonResult != null && jsonResult.IsSuccess)
             {
                 houseVM.imageList = null;
@@ -190,13 +171,9 @@ namespace Obioha_WebAPP.Controllers
                 var imageList = JsonConvert.DeserializeObject<List<ImageDTO>>(Convert.ToString(imgResponse))
                     .Where(x => x.House_Id == id).ToList();
 
-
-
                 foreach (var image in imageList)
                 {
-                    var fileName = Guid.NewGuid().ToString() + "_" + image;
-                    var Upload = Path.Combine(_host.WebRootPath, "Images");
-                    var filePath = Path.Combine(Upload, fileName);
+                    RefactorFile(image);
 
                     houseVM.imageList = imageList;
 
@@ -217,9 +194,8 @@ namespace Obioha_WebAPP.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                var responseList = await _UnitService.ImageService.GetAllAsync<APIResponse>();
-
+              var responseList = await _UnitService.ImageService.GetAllAsync<APIResponse>();
+            
                 var imageList = JsonConvert.DeserializeObject<List<ImageDTO>>(Convert.ToString(responseList.Result))
                     .Where(x => x.House_Id == model.houseDTO.Id).ToList();
 
@@ -227,19 +203,13 @@ namespace Obioha_WebAPP.Controllers
                 {
                     foreach (var image in imageList)
                     {
-                        var oldImagePath = Path.Combine(_host.WebRootPath, image.fileName.TrimStart('\\'));
-
-                        if (System.IO.File.Exists(oldImagePath))
-                        {
-                            System.IO.File.Delete(oldImagePath);
-                        }
+                        RemoveImageFromFile(image);
                     }
                 }
                 var response = await _UnitService.HouseService.DeleteAsync<APIResponse>(model.houseDTO.Id);
 
                 TempData["success"] = "successfully deleted";
                 return RedirectToAction(nameof(IndexHouse));
-
             }
             TempData["error"] = "Fail To Delete!!";
             return NotFound();
@@ -249,16 +219,11 @@ namespace Obioha_WebAPP.Controllers
         //......................other methods.................................
         private async Task<HouseCreateVM> GetHouseImageAsync(HouseCreateVM houseCreateVM)
         {
-
-
-            if (houseCreateVM.files.Count > 0)
-                // {
+           if (houseCreateVM.files.Count > 0)
                 foreach (var file in houseCreateVM.files)
                 {
                     var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
                     var upload = Path.Combine(_host.WebRootPath, @"Images");
-                    var extention = Path.GetExtension(fileName);
-
                     var filePath = Path.Combine(upload, fileName);
 
                     using (var fileStreams = new FileStream(filePath, FileMode.Create))
@@ -271,64 +236,31 @@ namespace Obioha_WebAPP.Controllers
                     imageCreated.fileName = @"\Images\" + fileName;
                     houseCreateVM.ImageList.Add(imageCreated);
 
+                  imageCreated.House_Id = houseCreateVM.GetHouse.Id;
 
-
-
-                    imageCreated.House_Id = houseCreateVM.GetHouse.Id;
-
-
-                    var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(imageCreated);
+                  var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(imageCreated);
 
                 }
             return houseCreateVM;
 
-            //}
-
-
         }
 
-        //public async Task AddImageAsync(IFormFile file)
-        //{
+       private void RefactorFile(ImageDTO image)
+        {
+            var fileName = Guid.NewGuid().ToString() + "_" + image;
+            var Upload = Path.Combine(_host.WebRootPath, "Images");
+            var filePath = Path.Combine(Upload, fileName);
+        }
 
+        private void RemoveImageFromFile(ImageDTO image)
+        {
+         var oldImagePath = Path.Combine(_host.WebRootPath, image.fileName.TrimStart('\\'));
 
-        //   if (file != null)
-        //        {
-        //        //foreach (var file in CreateImage.files)
-        //        //{
-        //            var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-        //            var upload = Path.Combine(_host.WebRootPath, @"Images");
-        //            var extention = Path.GetExtension(fileName);
-
-        //            var filePath = Path.Combine(upload, fileName);
-
-        //            using (var fileStreams = new FileStream(filePath, FileMode.Create))
-        //            {
-        //            file.CopyTo(fileStreams);
-        //            }
-
-        //            var jsonResponse = JsonConvert.SerializeObject(file);
-        //            var imageCreated = JsonConvert.DeserializeObject<ImageCreateDTO>(Convert.ToString(jsonResponse));
-        //            imageCreated.fileName = @"\Images\" + fileName;
-        //            //CreateImage.ImageList =imageCreated;
-        //           // imageCreated.House_Id = CreateImage.GetHouse.Id;
-
-
-        //            var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(imageCreated);
-
-              
-        //    }
-           
-
-
-        //}
-       
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+        }
     }
-
-
-
-
-
-
-
 
 }
