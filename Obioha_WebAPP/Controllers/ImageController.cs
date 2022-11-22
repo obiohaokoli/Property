@@ -134,14 +134,16 @@ namespace Obioha_WebAPP.Controllers
             {
                 return RedirectToAction("IndexHouse", "House");
             }
-               var image = await _UnitService.ImageService.GetAsync<APIResponse>(id);
-                if(image != null)
+               var response = await _UnitService.ImageService.GetAsync<APIResponse>(id);
+                if(response != null)
                 {
-                    var response = JsonConvert.SerializeObject(image.Result);
-                    var dto = JsonConvert.DeserializeObject<ImageDTO>(Convert.ToString(response));
+                    var jsonresponse = JsonConvert.SerializeObject(response.Result);
+                    var image = JsonConvert.DeserializeObject<ImageDTO>(Convert.ToString(jsonresponse));
+                    
+                     RemoveImageFromFile(image);
                     await _UnitService.ImageService.DeleteAsync<APIResponse>(id);
                     TempData["success"] = "successfully deleted";
-                    return RedirectToAction("UpdateHouse", "House", new { id = dto.House_Id });
+                    return RedirectToAction("UpdateHouse", "House", new { id =image.House_Id });
 
                 }
                
@@ -190,8 +192,7 @@ namespace Obioha_WebAPP.Controllers
 
             if (createVM.file != null)
             {
-                //foreach (var file in createVM.file)
-                //{
+               
                     var fileName = Guid.NewGuid().ToString() + "_" + createVM.file.FileName;
                     var upload = Path.Combine(_host.WebRootPath, @"Images");
                     var extention = Path.GetExtension(fileName);
@@ -203,21 +204,27 @@ namespace Obioha_WebAPP.Controllers
                         createVM.file.CopyTo(fileStreams);
                     }
 
-                    //var jsonResponse = JsonConvert.SerializeObject(createVM.file);
-                    //var imageCreated = JsonConvert.DeserializeObject<ImageCreateDTO>(Convert.ToString(jsonResponse));
-                   // createVM.CreateImage.fileName = createVM.file.FileName;
                     createVM.ImageList.fileName = @"\Images\" + fileName;
-                   // createVM.CreateImage =imageCreated;
+                   
 
 
                   var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(createVM.ImageList);
 
-                //}
+               
                 return createVM;
 
             }
 
             return createVM;
+        }
+        private void RemoveImageFromFile(ImageDTO image)
+        {
+            var oldImagePath = Path.Combine(_host.WebRootPath, image.fileName.TrimStart('\\'));
+
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
         }
 
 
