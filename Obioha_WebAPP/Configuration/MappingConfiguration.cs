@@ -19,7 +19,7 @@ namespace Obioha_WebAPP.Configuration
             CreateMap<HouseCreateVM, HouseUpdateVM>().ReverseMap();
 
             CreateMap<ImageDTO, ImageCreateDTO>().ReverseMap();
-            CreateMap<ImageDTO, ImageCreateDTO> ().ReverseMap();
+            CreateMap<ImageDTO, ImageUpdateDTO> ().ReverseMap();
         }
     }
 }
