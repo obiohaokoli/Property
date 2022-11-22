@@ -287,40 +287,40 @@ namespace Obioha_WebAPP.Controllers
 
         }
 
-        public async Task AddImageAsync(IFormFile file)
-        {
+        //public async Task AddImageAsync(IFormFile file)
+        //{
 
 
-           if (file != null)
-                {
-                //foreach (var file in CreateImage.files)
-                //{
-                    var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
-                    var upload = Path.Combine(_host.WebRootPath, @"Images");
-                    var extention = Path.GetExtension(fileName);
+        //   if (file != null)
+        //        {
+        //        //foreach (var file in CreateImage.files)
+        //        //{
+        //            var fileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+        //            var upload = Path.Combine(_host.WebRootPath, @"Images");
+        //            var extention = Path.GetExtension(fileName);
 
-                    var filePath = Path.Combine(upload, fileName);
+        //            var filePath = Path.Combine(upload, fileName);
 
-                    using (var fileStreams = new FileStream(filePath, FileMode.Create))
-                    {
-                    file.CopyTo(fileStreams);
-                    }
+        //            using (var fileStreams = new FileStream(filePath, FileMode.Create))
+        //            {
+        //            file.CopyTo(fileStreams);
+        //            }
 
-                    var jsonResponse = JsonConvert.SerializeObject(file);
-                    var imageCreated = JsonConvert.DeserializeObject<ImageCreateDTO>(Convert.ToString(jsonResponse));
-                    imageCreated.fileName = @"\Images\" + fileName;
-                    //CreateImage.ImageList =imageCreated;
-                   // imageCreated.House_Id = CreateImage.GetHouse.Id;
+        //            var jsonResponse = JsonConvert.SerializeObject(file);
+        //            var imageCreated = JsonConvert.DeserializeObject<ImageCreateDTO>(Convert.ToString(jsonResponse));
+        //            imageCreated.fileName = @"\Images\" + fileName;
+        //            //CreateImage.ImageList =imageCreated;
+        //           // imageCreated.House_Id = CreateImage.GetHouse.Id;
 
 
-                    var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(imageCreated);
+        //            var responseImage = await _UnitService.ImageService.CreateAsync<APIResponse>(imageCreated);
 
               
-            }
+        //    }
            
 
 
-        }
+        //}
        
     }
 
